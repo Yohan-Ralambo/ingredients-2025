@@ -32,6 +32,7 @@ public class DataRetriever {
         }
     }
 
+
     Order saveOrder(Order orderToSave) {
         if (orderToSave.getPaymentStatus() == PaymentStatusEnum.PAID) {
             throw new RuntimeException(
@@ -190,6 +191,34 @@ public class DataRetriever {
         }
     }
 
+    public class CannotCreateSaleException extends RuntimeException {
+        public CannotCreateSaleException(String message) {
+            super(message);
+        }
+    }
+
+    public Sale createSaleFrom(Order order) {
+        // 1) Vérifier que la commande est payée
+        if (order.getPaymentStatus() != PaymentStatusEnum.PAID) {
+            throw new CannotCreateSaleException(
+                    "Une vente ne peut être créée que pour une commande payée."
+            );
+        }
+
+        // 2) Vérifier qu’aucune vente n’existe déjà pour cette commande
+        if (saleExistsForOrder(order.getId())) {
+            throw new CannotCreateSaleException(
+                    "Une commande ne peut être associée qu'à une seule vente."
+            );
+        }
+
+        // 3) Créer la vente et la sauvegarder
+        Sale sale = new Sale();
+        sale.setCreationDatetime(Instant.now());
+        sale.setOrder(order);
+
+        return saveSale(sale);
+    }
 
     boolean saleExistsForOrder(Integer orderId) {
         String sql = "SELECT 1 FROM sale WHERE id_order = ?";
