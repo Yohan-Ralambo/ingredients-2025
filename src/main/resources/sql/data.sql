@@ -23,6 +23,9 @@ update dish
 set price = 6000.0
 where id = 2;
 
+UPDATE dish
+SET dish_type = 'START'
+WHERE dish_type = 'STARTER';
 
 insert into stock_movement(id, id_ingredient, quantity, type, unit, creation_datetime)
 values (1, 1, 5.0, 'IN', 'KG', '2024-01-05 08:00'),

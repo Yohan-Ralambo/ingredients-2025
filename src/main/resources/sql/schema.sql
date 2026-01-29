@@ -77,3 +77,15 @@ create table if not exists dish_order
     id_dish  int references dish (id),
     quantity int
 );
+
+alter table "order" add column if not exists status payment_status;
+
+
+create type payment_status as enum ('PAID', 'UNPAID');
+
+create table sale(
+    id serial primary key ,
+    id_order int,
+    creation_date timestamp,
+    foreign key (id_order) references "order" (id)
+)
