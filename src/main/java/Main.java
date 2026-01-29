@@ -6,7 +6,6 @@ public class Main {
     public static void main(String[] args) {
         DataRetriever dataRetriever = new DataRetriever();
 
-        // 1) Récupérer une commande par sa référence
         String orderReference = "CMD-001";
         Order order = dataRetriever.findOrderByReference(orderReference);
         if (order == null) {
@@ -20,7 +19,7 @@ public class Main {
         try {
             // ici on simule une modification : changer la liste des plats
             List<DishOrder> dishOrderList = order.getDishOrderList();
-            if (!dishOrderList.isEmpty()) {
+            if (dishOrderList != null && !dishOrderList.isEmpty()) {
                 DishOrder first = dishOrderList.get(0);
                 first.setQuantity(first.getQuantity() + 1);
             }

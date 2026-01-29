@@ -1,4 +1,5 @@
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,9 +47,12 @@ public class Order {
     public List<DishOrder> getDishOrderList() {
         return dishOrderList;
     }
-
     public void setDishOrderList(List<DishOrder> dishOrderList) {
-        this.dishOrderList = dishOrderList;
+        if (dishOrderList == null) {
+            this.dishOrderList = new ArrayList<>();
+        } else {
+            this.dishOrderList = dishOrderList;
+        }
     }
 
     @Override
